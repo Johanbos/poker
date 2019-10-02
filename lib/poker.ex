@@ -1,7 +1,8 @@
 defmodule Poker do
   use Agent
+
   @moduledoc """
-  Documentation for Poker.
+  Coordinates the poker game.
   """
 
   @doc """
@@ -15,6 +16,7 @@ defmodule Poker do
   Determs a winner.
   """
   def winner do
-    Agent.get(__MODULE__, & &1)
+    input = Agent.get(__MODULE__, & &1)
+    HighCard.card(input)
   end
 end
