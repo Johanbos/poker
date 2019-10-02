@@ -33,11 +33,6 @@ defmodule HighCard do
       "KD"
   """
   def card(hand) do
-    #todo: Possible reduce 4 iterations to 1 by `for c <- hand end`
-    values = Enum.map(hand, &value/1)
-    highvalue = Enum.max(values)
-    index = Enum.find_index(values, fn x -> x == highvalue end)
-    Enum.at(hand, index)
+    Enum.max_by(hand, &value/1)
   end
-
 end
