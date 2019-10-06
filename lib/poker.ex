@@ -7,12 +7,12 @@ defmodule Poker do
   @doc """
   Determs a winner.
   """
-  def winner(black, white) do
-    b = HighCard.card(black.hand)
-    w = HighCard.card(white.hand)
+  def winner(a, b) do
+    acard = Hand.high_card(a.hand)
+    bcard = Hand.high_card(b.hand)
     cond do
-        HighCard.value(b) > HighCard.value(w) -> "Black wins - high card: #{HighCard.name(b)}"
-        HighCard.value(b) < HighCard.value(w) -> "White wins - high card: #{HighCard.name(w)}"
+        Card.value(acard) > Card.value(bcard) -> "#{a.name} wins - high card: #{Card.name(acard)}"
+        Card.value(acard) < Card.value(bcard) -> "#{b.name} wins - high card: #{Card.name(bcard)}"
         true -> "Tie"
     end
   end

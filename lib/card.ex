@@ -1,18 +1,15 @@
-defmodule HighCard do
-  @moduledoc """
-    Determs the hand value based on a High Card.
-  """
+defmodule Card do
   @jack 10
   @queen 12
   @king 12
   @ace 13
 
   @doc """
-  Determ HighCard value.
+  Determ Card value.
 
-  iex> HighCard.value("2H")
+  iex> Card.value("2H")
   2
-  iex> HighCard.value("KD")
+  iex> Card.value("KD")
   12
   """
   def value(card) do
@@ -29,11 +26,11 @@ defmodule HighCard do
   end
 
   @doc """
-  Determ HighCard name.
+  Determ Card name.
 
-  iex> HighCard.name("2H")
+  iex> Card.name("2H")
   2
-  iex> HighCard.name("KD")
+  iex> Card.name("KD")
   "king"
   """
   def name(card) do
@@ -47,14 +44,5 @@ defmodule HighCard do
             "A" -> "ace"
         end
     end
-  end
-
-  @doc """
-  Determ HighCard card.
-    iex> HighCard.card(["2H","3D","5S","9C","KD"])
-    "KD"
-  """
-  def card(hand) do
-    Enum.max_by(hand, &value/1)
   end
 end
