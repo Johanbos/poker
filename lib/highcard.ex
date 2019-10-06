@@ -29,6 +29,27 @@ defmodule HighCard do
   end
 
   @doc """
+  Determ HighCard name.
+
+  iex> HighCard.name("2H")
+  2
+  iex> HighCard.name("KD")
+  "king"
+  """
+  def name(card) do
+    f = String.first(card)
+    case Integer.parse(f) do
+        {n, ""} -> n
+        _ -> case f do
+            "J" -> "jack"
+            "Q" -> "queen"
+            "K" -> "king"
+            "A" -> "ace"
+        end
+    end
+  end
+
+  @doc """
   Determ HighCard card.
     iex> HighCard.card(["2H","3D","5S","9C","KD"])
     "KD"
