@@ -1,18 +1,18 @@
 defmodule PokerTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   doctest Poker
-  doctest Card
-  doctest Hand
+  doctest Poker.Card
+  doctest Poker.Hand
 
   test "Poker winner returns Ace" do
-    black = %Poker{name: "Black", hand: ["2H","3D","5S","9C","KD"]}
-    white = %Poker{name: "White", hand: ["2C","3H","4S","8C","AH"]}
+    black = %Poker{name: "Black", cards: ["2H","3D","5S","9C","KD"]}
+    white = %Poker{name: "White", cards: ["2C","3H","4S","8C","AH"]}
     assert Poker.winner(black, white) == "White wins - high card: ace"
   end
 
-  test "Poker winner returns pair" do
-    black = %Poker{name: "Black", hand: ["2H","3D","5S","9C","KD"]}
-    white = %Poker{name: "White", hand: ["2C","3H","4S","AC","AH"]}
+  test "Poker winner returns pair Ace" do
+    black = %Poker{name: "Black", cards: ["2H","3D","5S","9C","KD"]}
+    white = %Poker{name: "White", cards: ["2C","3H","4S","AC","AH"]}
     assert Poker.winner(black, white) == "White wins - pair: ace"
   end
 
@@ -20,14 +20,14 @@ defmodule PokerTest do
 #Output: White wins - flush
 
   test "Poker winner returns 9" do
-    black = %Poker{name: "Black", hand: ["2H","3D","5S","9C","6D"]}
-    white = %Poker{name: "White", hand: ["2C","3H","4S","8C","6H"]}
+    black = %Poker{name: "Black", cards: ["2H","3D","5S","9C","6D"]}
+    white = %Poker{name: "White", cards: ["2C","3H","4S","8C","6H"]}
     assert Poker.winner(black, white) == "Black wins - high card: 9"
   end
 
   test "Poker winner returns Tie" do
-    black = %Poker{name: "Black", hand: ["2H","3D","5S","9C","KD"]}
-    white = %Poker{name: "White", hand: ["2D","3H","5C","9S","KH"]}
+    black = %Poker{name: "Black", cards: ["2H","3D","5S","9C","KD"]}
+    white = %Poker{name: "White", cards: ["2D","3H","5C","9S","KH"]}
     assert Poker.winner(black, white) == "Tie"
   end
 
