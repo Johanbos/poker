@@ -16,6 +16,7 @@ defmodule PokerTest do
     assert Poker.winner(black, white) == "White wins - pair: ace"
   end
 
+#todo:
 #Input: Black: 2H 4S 4C 3D 4H White: 2S 8S AS QS 3S
 #Output: White wins - flush
 

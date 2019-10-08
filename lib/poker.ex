@@ -9,6 +9,7 @@ defmodule Poker do
   Determs a winner.
   """
   @spec winner(%Poker{}, %Poker{}) :: String.t
+  #todo: @spec winner([%Poker{}]) :: String.t
   def winner(a, b) do
     a_hand = highest_hand(a)
     b_hand = highest_hand(b)
@@ -35,6 +36,10 @@ defmodule Poker do
   def highest_hand(a) do
     analyzed_cards = Card.analyze(a.cards)
     cond do
+      #h = full house
+      #h = flush
+      #h = three of a kind
+      #h = two pair
       h = Hand.pair(analyzed_cards) -> {1, h.value, "pair: " <> Card.name(hd(h.cards)) }
       h = Hand.high_card(analyzed_cards) -> {0, h.value, "high card: " <> Card.name(hd(h.cards))}
     end
