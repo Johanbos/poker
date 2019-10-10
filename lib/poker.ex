@@ -31,6 +31,8 @@ defmodule Poker do
     {0, 12, "high card: king"}
     iex>Poker.highest_hand(%Poker{name: "test", cards: ["JH","3D","5S","JC","KD"]})
     {1, 10, "pair: jack"}
+    iex>Poker.highest_hand(%Poker{name: "test", cards: ["JH","3D","3S","JC","KD"]})
+    {2, 10, "two pair: jack"}
   """
   @spec highest_hand(%Poker{}) :: {integer, integer, String.t}
   def highest_hand(a) do
@@ -39,7 +41,7 @@ defmodule Poker do
       #h = full house
       #h = flush
       #h = three of a kind
-      #h = two pair
+      h = Hand.two_pair(analyzed_cards) -> {2, h.value, "two pair: " <> Card.name(hd(h.cards))}
       h = Hand.pair(analyzed_cards) -> {1, h.value, "pair: " <> Card.name(hd(h.cards)) }
       h = Hand.high_card(analyzed_cards) -> {0, h.value, "high card: " <> Card.name(hd(h.cards))}
     end

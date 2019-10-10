@@ -23,7 +23,8 @@
     {
         "taskName": "test",
         "args": [
-            "test"
+            "test",
+            "--trace"
         ],
         "problemMatcher": [
             "$mixCompileError",
