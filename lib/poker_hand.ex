@@ -45,4 +45,23 @@ defmodule Poker.Hand do
         _ -> nil
     end
   end
+
+
+  @doc """
+  Determ the highest three of a kind from analyzed cards
+  ## Examples
+    iex> Poker.Hand.three_of_a_kind([ %Poker.Card{cards: ["9C"], value: 9}, %Poker.Card{cards: ["5S", "5D",], value: 5}, %Poker.Card{cards: ["3D"], value: 3}, %Poker.Card{cards: ["2H"], value: 2}])
+    nil
+
+    iex> Poker.Hand.three_of_a_kind([ %Poker.Card{cards: ["5S"], value: 5}, %Poker.Card{cards: ["QD", "QH", "QS"], value: 12}, %Poker.Card{cards: ["2H"], value: 2}])
+    %Poker.Card{cards: ["QD", "QH", "QS"], value: 12}
+  """
+  @spec three_of_a_kind([%Poker.Card{}]) :: %Poker.Card{}
+  def three_of_a_kind(analyzed_cards) do
+    pairs = Enum.filter(analyzed_cards, fn c -> length(c.cards) === 3 end)
+    case pairs do
+        [] -> nil
+        _ -> hd(pairs)
+    end
+  end
 end

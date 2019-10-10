@@ -1,7 +1,7 @@
 defmodule Poker.Card do
   defstruct [:value, :cards]
   @jack 10
-  @queen 12
+  @queen 11
   @king 12
   @ace 13
 
@@ -16,13 +16,11 @@ defmodule Poker.Card do
       %Poker.Card{cards: ["2H"], value: 2}
     ]
 
-    iex> Poker.Card.analyze(["2H","3D","5S","9C","6D"])
+    iex> Poker.Card.analyze(["AH","QD","QS","QC","KD"])
     [
-      %Poker.Card{cards: ["9C"], value: 9},
-      %Poker.Card{cards: ["6D"], value: 6},
-      %Poker.Card{cards: ["5S"], value: 5},
-      %Poker.Card{cards: ["3D"], value: 3},
-      %Poker.Card{cards: ["2H"], value: 2}
+        %Poker.Card{cards: ["AH"], value: 13},
+        %Poker.Card{cards: ["KD"], value: 12},
+        %Poker.Card{cards: ["QD", "QS", "QC"], value: 11}
     ]
   """
   def analyze(hand) do
@@ -40,6 +38,8 @@ defmodule Poker.Card do
     12
     iex> Poker.Card.value("6D")
     6
+    iex> Poker.Card.value("QD")
+    11
   """
   @spec value(String.t()) :: integer
   def value(card) do
