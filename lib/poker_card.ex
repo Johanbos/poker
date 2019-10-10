@@ -46,9 +46,7 @@ defmodule Poker.Card do
     f = String.first(card)
 
     case Integer.parse(f) do
-      {n, ""} ->
-        n
-
+      {n, ""} -> n
       _ ->
         case f do
           "J" -> @jack

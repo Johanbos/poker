@@ -1,41 +1,48 @@
 {
-  "version": "0.1.0",
-  "command": "mix",
-  "isShellCommand": true,
-  "showOutput": "always",
-  "suppressTaskName": true,
-  "tasks": [
-    {
-        "taskName": "build",
-        "args": [
-            "compile"
-        ],
-        "problemMatcher": [
-            "$mixCompileError",
-            "$mixCompileWarning"
-        ],
-        "isBuildCommand": true,
-        "group": {
-            "kind": "build",
-            "isDefault": true
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "mix",
+            "args": [
+                "compile"
+            ],
+            "group": "build",
+            "problemMatcher": [
+                "$mixCompileError",
+                "$mixCompileWarning",
+            ]
+        },
+        {
+            "label": "test",
+            "type": "shell",
+            "command": "mix",
+            "args": [
+                "test"
+            ],
+            "dependsOn": "build",
+            "group": "test",
+            "problemMatcher": [
+                "$mixTestFailure"
+            ]
+        },
+        {
+            "label": "dialyze",
+            "type": "shell",
+            "command": "mix",
+            "args": [
+                "dialyzer"
+            ],
+            "dependsOn": "build",
+            "group": "test",
+            "problemMatcher": [
+                "$mixCompileError",
+                "$mixCompileWarning",
+                "$mixTestFailure"
+            ]
         }
-    },
-    {
-        "taskName": "test",
-        "args": [
-            "test",
-            "--trace"
-        ],
-        "problemMatcher": [
-            "$mixCompileError",
-            "$mixCompileWarning",
-            "$mixTestFailure"
-        ],
-        "isTestCommand": true,
-        "group": {
-            "kind": "test",
-            "isDefault": true
-        }
-    }
-]
+    ]
 }
