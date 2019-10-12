@@ -19,7 +19,7 @@ defmodule Poker do
     # if head equals second its a Tie
     [first | [second | _]] = highest_hands
     if (elem(first, 0) != elem(second, 0)) do
-        elem(first, 3)
+        "#{elem(first, 1)} wins - #{elem(first, 2)}"
     else
         "Tie"
     end
@@ -28,15 +28,8 @@ defmodule Poker do
   @doc """
   Determ the best hand by poker rules
   ## Examples
-    iex>Poker.highest_hand(%Poker{name: "x", cards: ["2H","3D","5S","9C","KD"]})
-    {1209050302, "x",
-        [
-            %Poker.Cards{cards: ["KD"], value: 12},
-            %Poker.Cards{cards: ["9C"], value: 9},
-            %Poker.Cards{cards: ["5S"], value: 5},
-            %Poker.Cards{cards: ["3D"], value: 3},
-            %Poker.Cards{cards: ["2H"], value: 2}
-        ], "x wins - high card: king"}
+    iex>Poker.highest_hand(%Poker{name: "Black", cards: ["2H","3D","5S","9C","KD"]})
+    {1209050302, "Black", "high card: king"}
   """
   @spec highest_hand(%Poker{}) :: {integer, [%Cards{}], String.t}
   def highest_hand(a) do
@@ -44,10 +37,10 @@ defmodule Poker do
     cond do
       #h = full house
       #h = flush
-      h = Hand.three_of_a_kind(analyzed_cards) -> {Hand.value(3, h), a.name, h, "#{a.name} wins - three of a kind: " <> Cards.name(hd(hd(h).cards))}
-      h = Hand.two_pair(analyzed_cards) -> {Hand.value(2, h), a.name, h, "#{a.name} wins - two pair: " <> Cards.name(hd(hd(h).cards))}
-      h = Hand.pair(analyzed_cards) -> {Hand.value(1, h), a.name, h, "#{a.name} wins - pair: " <> Cards.name(hd(hd(h).cards))}
-      h = Hand.high_card(analyzed_cards) -> {Hand.value(0, h), a.name, h, "#{a.name} wins - high card: " <> Cards.name(hd(hd(h).cards))}
+      h = Hand.three_of_a_kind(analyzed_cards) -> {Hand.value(3, h), a.name, "three of a kind: " <> Cards.name(hd(hd(h).cards))}
+      h = Hand.two_pair(analyzed_cards) -> {Hand.value(2, h), a.name, "two pair: " <> Cards.name(hd(hd(h).cards))}
+      h = Hand.pair(analyzed_cards) -> {Hand.value(1, h), a.name, "pair: " <> Cards.name(hd(hd(h).cards))}
+      h = Hand.high_card(analyzed_cards) -> {Hand.value(0, h), a.name, "high card: " <> Cards.name(hd(hd(h).cards))}
     end
   end
 end

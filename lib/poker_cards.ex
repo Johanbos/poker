@@ -1,5 +1,5 @@
-defmodule Poker.Card do
-  defstruct [:value, :cards]
+defmodule Poker.Cards do
+  defstruct [:cards, :value]
   @jack 10
   @queen 11
   @king 12
@@ -8,37 +8,37 @@ defmodule Poker.Card do
   @doc """
   Transform cards into an analyzed cards, grouping and ranking cards
   ## Examples
-    iex> Poker.Card.analyze(["2H","3D","5S","9C","5D"])
+    iex> Poker.Cards.analyze(["2H","3D","5S","9C","5D"])
     [
-      %Poker.Card{cards: ["9C"], value: 9},
-      %Poker.Card{cards: ["5S", "5D"], value: 5},
-      %Poker.Card{cards: ["3D"], value: 3},
-      %Poker.Card{cards: ["2H"], value: 2}
+      %Poker.Cards{cards: ["9C"], value: 9},
+      %Poker.Cards{cards: ["5S", "5D"], value: 5},
+      %Poker.Cards{cards: ["3D"], value: 3},
+      %Poker.Cards{cards: ["2H"], value: 2}
     ]
 
-    iex> Poker.Card.analyze(["AH","QD","QS","QC","KD"])
+    iex> Poker.Cards.analyze(["AH","QD","QS","QC","KD"])
     [
-        %Poker.Card{cards: ["AH"], value: 13},
-        %Poker.Card{cards: ["KD"], value: 12},
-        %Poker.Card{cards: ["QD", "QS", "QC"], value: 11}
+        %Poker.Cards{cards: ["AH"], value: 13},
+        %Poker.Cards{cards: ["KD"], value: 12},
+        %Poker.Cards{cards: ["QD", "QS", "QC"], value: 11}
     ]
   """
   def analyze(hand) do
-    Enum.group_by(hand, &Poker.Card.value/1)
+    Enum.group_by(hand, &Poker.Cards.value/1)
     |> Enum.sort_by(fn e -> elem(e, 0) * -1 end)
-    |> Enum.map(fn c -> %Poker.Card{value: elem(c, 0), cards: elem(c, 1)} end)
+    |> Enum.map(fn c -> %Poker.Cards{value: elem(c, 0), cards: elem(c, 1)} end)
   end
 
   @doc """
   Determ Card value.
   ## Examples
-    iex> Poker.Card.value("2H")
+    iex> Poker.Cards.value("2H")
     2
-    iex> Poker.Card.value("KD")
+    iex> Poker.Cards.value("KD")
     12
-    iex> Poker.Card.value("6D")
+    iex> Poker.Cards.value("6D")
     6
-    iex> Poker.Card.value("QD")
+    iex> Poker.Cards.value("QD")
     11
   """
   @spec value(String.t()) :: integer
@@ -60,9 +60,9 @@ defmodule Poker.Card do
   @doc """
   Determ Card name.
   ## Examples
-  iex> Poker.Card.name("KD")
+  iex> Poker.Cards.name("KD")
   "king"
-  iex> Poker.Card.name("9C")
+  iex> Poker.Cards.name("9C")
   "9"
   """
   @spec name(String.t()) :: String.t()

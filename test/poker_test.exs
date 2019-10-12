@@ -1,7 +1,7 @@
 defmodule PokerTest do
   use ExUnit.Case, async: true
   doctest Poker
-  doctest Poker.Card
+  doctest Poker.Cards
   doctest Poker.Hand
 
   test "Poker winner returns Ace" do
