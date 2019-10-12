@@ -3,7 +3,7 @@ defmodule Poker do
   Coordinates the poker game.
   """
   defstruct [:name, :cards]
-  alias Poker.{Card, Hand}
+  alias Poker.{Cards, Hand}
 
   @doc """
   Determs a winner.
@@ -14,15 +14,14 @@ defmodule Poker do
   def winner(hands) do
     # analyze hands
     highest_hands = Enum.map(hands, &highest_hand/1)
-    # sort by highest and then card values
-    |> Enum.sort_by(fn e -> (elem(e, 0) * -1000) - (elem(e, 1))  end)
+    |> Enum.sort_by(fn e -> (elem(e, 0) * -1) end)
     |> Enum.take(2)
     # if head equals second its a Tie
     [first | [second | _]] = highest_hands
-    if (elem(first, 0) == elem(second, 0) && elem(first, 1) == elem(second, 1)) do
-        "Tie"
+    if (elem(first, 0) != elem(second, 0)) do
+        elem(first, 3)
     else
-        elem(first, 2)
+        "Tie"
     end
   end
 
@@ -30,24 +29,25 @@ defmodule Poker do
   Determ the best hand by poker rules
   ## Examples
     iex>Poker.highest_hand(%Poker{name: "x", cards: ["2H","3D","5S","9C","KD"]})
-    {0, 12, "x wins - high card: king"}
-    iex>Poker.highest_hand(%Poker{name: "x", cards: ["JH","3D","5S","JC","KD"]})
-    {1, 10, "x wins - pair: jack"}
-    iex>Poker.highest_hand(%Poker{name: "x", cards: ["JH","3D","3S","JC","KD"]})
-    {2, 10, "x wins - two pair: jack"}
-    iex>Poker.highest_hand(%Poker{name: "x", cards: ["AH","QD","QS","QC","KD"]})
-    {3, 11, "x wins - three of a kind: queen"}
+    {1209050302, "x",
+        [
+            %Poker.Cards{cards: ["KD"], value: 12},
+            %Poker.Cards{cards: ["9C"], value: 9},
+            %Poker.Cards{cards: ["5S"], value: 5},
+            %Poker.Cards{cards: ["3D"], value: 3},
+            %Poker.Cards{cards: ["2H"], value: 2}
+        ], "x wins - high card: king"}
   """
-  @spec highest_hand(%Poker{}) :: {integer, integer, String.t}
+  @spec highest_hand(%Poker{}) :: {integer, [%Cards{}], String.t}
   def highest_hand(a) do
-    analyzed_cards = Card.analyze(a.cards)
+    analyzed_cards = Cards.analyze(a.cards)
     cond do
       #h = full house
       #h = flush
-      h = Hand.three_of_a_kind(analyzed_cards) -> {3, h.value, "#{a.name} wins - three of a kind: " <> Card.name(hd(h.cards))}
-      h = Hand.two_pair(analyzed_cards) -> {2, h.value, "#{a.name} wins - two pair: " <> Card.name(hd(h.cards))}
-      h = Hand.pair(analyzed_cards) -> {1, h.value, "#{a.name} wins - pair: " <> Card.name(hd(h.cards)) }
-      h = Hand.high_card(analyzed_cards) -> {0, h.value, "#{a.name} wins - high card: " <> Card.name(hd(h.cards))}
+      h = Hand.three_of_a_kind(analyzed_cards) -> {Hand.value(3, h), a.name, h, "#{a.name} wins - three of a kind: " <> Cards.name(hd(hd(h).cards))}
+      h = Hand.two_pair(analyzed_cards) -> {Hand.value(2, h), a.name, h, "#{a.name} wins - two pair: " <> Cards.name(hd(hd(h).cards))}
+      h = Hand.pair(analyzed_cards) -> {Hand.value(1, h), a.name, h, "#{a.name} wins - pair: " <> Cards.name(hd(hd(h).cards))}
+      h = Hand.high_card(analyzed_cards) -> {Hand.value(0, h), a.name, h, "#{a.name} wins - high card: " <> Cards.name(hd(hd(h).cards))}
     end
   end
 end
