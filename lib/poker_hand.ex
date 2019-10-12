@@ -96,4 +96,33 @@ end
             _ -> Enum.concat(pairs, remainder)
         end
     end
+
+    @doc """
+    Determ the highest straight from analyzed cards
+    ## Examples
+    iex> Poker.Hand.straight([ %Poker.Cards{cards: ["9C"], value: 9}, %Poker.Cards{cards: ["5S", "5D",], value: 5}, %Poker.Cards{cards: ["3D"], value: 3}, %Poker.Cards{cards: ["2H"], value: 2}])
+    nil
+
+    iex> Poker.Hand.straight([ %Poker.Cards{cards: ["6S"], value: 6},%Poker.Cards{cards: ["5S"], value: 5}, %Poker.Cards{cards: ["4D"], value: 4}, %Poker.Cards{cards: ["3H"], value: 3}, %Poker.Cards{cards: ["2S"], value: 2}])
+    [
+        %Poker.Cards{cards: ["6S"], value: 6},
+        %Poker.Cards{cards: ["5S"], value: 5},
+        %Poker.Cards{cards: ["4D"], value: 4},
+        %Poker.Cards{cards: ["3H"], value: 3},
+        %Poker.Cards{cards: ["2S"], value: 2}
+    ]
+    """
+    @spec straight([%Poker.Cards{}]) :: [%Poker.Cards{}]
+    def straight(analyzed_cards) do
+        %Poker.Cards{value: value} = hd(analyzed_cards)
+        case Enum.reduce(analyzed_cards, value, fn (%Poker.Cards{value: value}, acc) ->
+            case value === acc do
+                :true -> acc-1
+                :false -> 0
+            end
+        end) do
+            0 -> nil
+            _ -> analyzed_cards
+        end
+    end
 end
