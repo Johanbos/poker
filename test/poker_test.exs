@@ -19,7 +19,7 @@ defmodule PokerTest do
   test "Poker winner returns flush Spades" do
     black = %Poker{name: "Black", cards: ["2H","4S","4C","3D","4H"]}
     white = %Poker{name: "White", cards: ["2S","8S","AS","QS","3S"]}
-    assert Poker.winner([black, white]) == "White  wins - flush: spades"
+    assert Poker.winner([black, white]) == "White wins - flush: spades"
   end
 
   test "Poker winner returns straight" do
@@ -40,4 +40,9 @@ defmodule PokerTest do
     assert Poker.winner([black, white]) == "Tie"
   end
 
+  test "Poker winner returns full house" do
+    black = %Poker{name: "Black", cards: ["3H","3D","KS","3C","KD"]}
+    white = %Poker{name: "White", cards: ["2D","2H","2C","KC","KH"]}
+    assert Poker.winner([black, white]) == "Black wins - full house: 3"
+  end
 end

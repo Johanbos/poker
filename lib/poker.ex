@@ -35,9 +35,9 @@ defmodule Poker do
   def highest_hand(a) do
     analyzed_cards = Cards.analyze(a.cards)
     cond do
-      #h = full house
-      h = Hand.flush(analyzed_cards) -> {Hand.value(3, h), a.name, "flush: " <> Cards.suit(hd(hd(h).cards))}
-      h = Hand.straight(analyzed_cards) -> {Hand.value(3, h), a.name, "straight: " <> Cards.name(hd(hd(h).cards))}
+      h = Hand.full_house(analyzed_cards) -> {Hand.value(6, h), a.name, "full house: " <> Cards.name(hd(hd(h).cards))}
+      h = Hand.flush(analyzed_cards) -> {Hand.value(5, h), a.name, "flush: " <> Cards.suit(hd(hd(h).cards))}
+      h = Hand.straight(analyzed_cards) -> {Hand.value(4, h), a.name, "straight: " <> Cards.name(hd(hd(h).cards))}
       h = Hand.three_of_a_kind(analyzed_cards) -> {Hand.value(3, h), a.name, "three of a kind: " <> Cards.name(hd(hd(h).cards))}
       h = Hand.two_pair(analyzed_cards) -> {Hand.value(2, h), a.name, "two pair: " <> Cards.name(hd(hd(h).cards))}
       h = Hand.pair(analyzed_cards) -> {Hand.value(1, h), a.name, "pair: " <> Cards.name(hd(hd(h).cards))}

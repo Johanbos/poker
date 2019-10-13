@@ -157,4 +157,26 @@ end
             _ -> analyzed_cards
         end
     end
+
+    @doc """
+    Determ the highest three of a kind from analyzed cards
+    ## Examples
+    iex> Poker.Hand.full_house([ %Poker.Cards{cards: ["5S", "5D", "5H"], value: 5}, %Poker.Cards{cards: ["3D"], value: 3}, %Poker.Cards{cards: ["2H"], value: 2}])
+    nil
+
+    iex> Poker.Hand.full_house([ %Poker.Cards{cards: ["QD", "QH", "QS"], value: 12}, %Poker.Cards{cards: ["2H","2D"], value: 2}])
+    [
+        %Poker.Cards{cards: ["QD", "QH", "QS"], value: 12},
+        %Poker.Cards{cards: ["2H", "2D"], value: 2}
+    ]
+    """
+    @spec full_house([%Poker.Cards{}]) :: [%Poker.Cards{}]
+    def full_house(analyzed_cards) do
+        {three, remainder} = Enum.split_with(analyzed_cards, fn c -> length(c.cards) === 3 end)
+        {two, remainder} = Enum.split_with(remainder, fn c -> length(c.cards) === 2 end)
+        cond do
+            [] == three || [] == two -> nil
+            :true -> Enum.concat(three, two) |> Enum.concat(remainder)
+        end
+    end
 end
