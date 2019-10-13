@@ -36,7 +36,7 @@ defmodule Poker do
     analyzed_cards = Cards.analyze(a.cards)
     cond do
       #h = full house
-      #h = flush
+      h = Hand.flush(analyzed_cards) -> {Hand.value(3, h), a.name, "flush: " <> Cards.suit(hd(hd(h).cards))}
       h = Hand.straight(analyzed_cards) -> {Hand.value(3, h), a.name, "straight: " <> Cards.name(hd(hd(h).cards))}
       h = Hand.three_of_a_kind(analyzed_cards) -> {Hand.value(3, h), a.name, "three of a kind: " <> Cards.name(hd(hd(h).cards))}
       h = Hand.two_pair(analyzed_cards) -> {Hand.value(2, h), a.name, "two pair: " <> Cards.name(hd(hd(h).cards))}

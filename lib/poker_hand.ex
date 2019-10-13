@@ -1,4 +1,6 @@
 defmodule Poker.Hand do
+    alias Poker.Cards
+
     @doc """
     Determ the value of the hand.
     ## Examples
@@ -122,6 +124,36 @@ end
             end
         end) do
             0 -> nil
+            _ -> analyzed_cards
+        end
+    end
+
+    @doc """
+    Determ a flush from analyzed cards
+    ## Examples
+    iex> Poker.Hand.flush([ %Poker.Cards{cards: ["9C"], value: 9}, %Poker.Cards{cards: ["5S", "5D",], value: 5}, %Poker.Cards{cards: ["3D"], value: 3}, %Poker.Cards{cards: ["2H"], value: 2}])
+    nil
+
+    iex> Poker.Hand.flush([ %Poker.Cards{cards: ["KS"], value: 12},%Poker.Cards{cards: ["5S"], value: 5}, %Poker.Cards{cards: ["4S"], value: 4}, %Poker.Cards{cards: ["3S"], value: 3}, %Poker.Cards{cards: ["2S"], value: 2}])
+    [
+        %Poker.Cards{cards: ["KS"], value: 12},
+        %Poker.Cards{cards: ["5S"], value: 5},
+        %Poker.Cards{cards: ["4S"], value: 4},
+        %Poker.Cards{cards: ["3S"], value: 3},
+        %Poker.Cards{cards: ["2S"], value: 2}
+    ]
+    """
+    @spec flush([%Poker.Cards{}]) :: [%Poker.Cards{}]
+    def flush(analyzed_cards) do
+        %Poker.Cards{cards: cards} = hd(analyzed_cards)
+        suit = Cards.suit(hd(cards))
+        case Enum.reduce(analyzed_cards, suit, fn (%Poker.Cards{cards: cards}, acc) ->
+            case Enum.all?(cards, fn (x) -> Cards.suit(x) === acc end) do
+                :true -> acc
+                :false -> nil
+            end
+        end) do
+            nil -> nil
             _ -> analyzed_cards
         end
     end

@@ -23,6 +23,7 @@ defmodule Poker.Cards do
         %Poker.Cards{cards: ["QD", "QS", "QC"], value: 11}
     ]
   """
+  @spec analyze([String]) :: [%Poker.Cards{}]
   def analyze(hand) do
     Enum.group_by(hand, &Poker.Cards.value/1)
     |> Enum.sort_by(fn e -> elem(e, 0) * -1 end)
@@ -77,6 +78,29 @@ defmodule Poker.Cards do
           "K" -> "king"
           "A" -> "ace"
         end
+    end
+  end
+
+  @doc """
+  Determ Card suit.
+  ## Examples
+  iex> Poker.Cards.suit("KD")
+  "diamond"
+  iex> Poker.Cards.suit("9C")
+  "club"
+  iex> Poker.Cards.suit("9H")
+  "heart"
+  iex> Poker.Cards.suit("9S")
+  "spades"
+  """
+  @spec suit(String.t()) :: String.t()
+  def suit(card) do
+    s = String.at(card, 1)
+    case s do
+        "S" -> "spades"
+        "H" -> "heart"
+        "D" -> "diamond"
+        "C" -> "club"
     end
   end
 end
